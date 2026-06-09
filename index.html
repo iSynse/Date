@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>💖 A Special Question Just For You 💖</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Floating hearts background -->
+  <div class="floating-hearts" id="floatingHearts"></div>
+
+  <!-- ─────────────────────────────────────────
+       STEP 1: The Envelope
+  ───────────────────────────────────────── -->
+  <section class="step active" id="step1">
+    <div class="envelope-wrapper" id="envelopeWrapper">
+
+      <!-- The Envelope -->
+      <div class="envelope" id="envelope">
+        <div class="envelope-back"></div>
+
+        <!-- Flap (top triangle) -->
+        <div class="envelope-flap" id="envelopeFlap"></div>
+
+        <!-- Front face -->
+        <div class="envelope-front">
+          <div class="bowtie">
+            <div class="bowtie-left"></div>
+            <div class="bowtie-knot"></div>
+            <div class="bowtie-right"></div>
+          </div>
+          <div class="envelope-hearts">
+            <span>💖</span><span>💕</span><span>💖</span>
+          </div>
+          <p class="tap-hint">tap to open 💌</p>
+        </div>
+
+        <!-- Wax seal -->
+        <div class="wax-seal">💘</div>
+      </div>
+
+      <!-- Letter that reveals on open -->
+      <div class="letter" id="letter">
+        <div class="letter-content">
+          <p class="letter-deco">💕 💖 💕</p>
+          <h1>Do you want to go on a date with me?</h1>
+          <p class="letter-sub">I promise it'll be the most magical evening ✨</p>
+          <div class="letter-buttons">
+            <button class="btn-yes" id="yesBtn">Yes! 💖</button>
+            <button class="btn-no" id="noBtn">No 🙁</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────
+       STEP 2: Date & Time Picker
+  ───────────────────────────────────────── -->
+  <section class="step" id="step2">
+    <div class="card">
+      <div class="card-emoji">💘</div>
+      <h2>Pick our perfect moment</h2>
+      <p class="card-sub">When should our story begin? 🌸</p>
+
+      <div class="field-group">
+        <label for="dateInput">📅 Choose a day</label>
+        <input type="date" id="dateInput" class="cute-input" />
+      </div>
+
+      <div class="field-group">
+        <label for="timeInput">⏰ Choose a time</label>
+        <input type="time" id="timeInput" class="cute-input" />
+      </div>
+
+      <button class="btn-primary" id="nextBtn">Next 💕</button>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────
+       STEP 3: Food Options
+  ───────────────────────────────────────── -->
+  <section class="step" id="step3">
+    <div class="card">
+      <div class="card-emoji">🍽️</div>
+      <h2>What shall we eat?</h2>
+      <p class="card-sub">Pick everything you fancy 💭</p>
+
+      <div class="food-grid">
+        <div class="food-card" data-food="Pizza 🍕">
+          <span class="food-emoji">🍕</span>
+          <span class="food-label">Pizza</span>
+        </div>
+        <div class="food-card" data-food="Pasta 🍝">
+          <span class="food-emoji">🍝</span>
+          <span class="food-label">Pasta</span>
+        </div>
+        <div class="food-card" data-food="Coffee ☕">
+          <span class="food-emoji">☕</span>
+          <span class="food-label">Coffee</span>
+        </div>
+        <div class="food-card" id="otherCard" data-food="Other">
+          <span class="food-emoji">💭</span>
+          <span class="food-label">Other</span>
+        </div>
+      </div>
+
+      <div class="other-input-wrap" id="otherInputWrap">
+        <input type="text" id="otherInput" class="cute-input" placeholder="Tell me what you'd love… 💖" />
+      </div>
+
+      <button class="btn-primary" id="submitBtn">Let's do this! 💖</button>
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────
+       STEP 4: Success Screen
+  ───────────────────────────────────────── -->
+  <section class="step" id="step4">
+    <div class="success-screen">
+      <div class="lily-bg"></div>
+      <div class="success-content">
+        <div class="success-hearts">💖 💕 💘 💕 💖</div>
+        <h1 class="success-title">So it's a date!</h1>
+        <p class="success-sub">I can't wait to spend that time with you 🌸</p>
+        <div class="success-details" id="successDetails"></div>
+        <div class="success-hearts" style="margin-top:2rem;">💕 💖 💕</div>
+        <div class="confetti-container" id="confettiContainer"></div>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
