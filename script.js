@@ -279,49 +279,32 @@ function launchConfetti() {
 /* ─────────────────────────────────────────────────────────
    WEBHOOK / FORMSPREE SUBMISSION
 ───────────────────────────────────────────────────────── */
-async function sendData({ date, time, foods }) {
-  if (!WEBHOOK_URL || WEBHOOK_URL === 'YOUR_DISCORD_WEBHOOK_URL_HERE') {
-    console.info('🌸 Webhook not configured — skipping send.');
-    return;
-  }
+// ─────────────────────────────────────────────────────────────
+// OPTION 1: Google Sheets via SheetDB
+// Paste your SheetDB API URL below
+// ─────────────────────────────────────────────────────────────
+const SHEETDB_URL = 'https://sheetdb.io/api/v1/8xph8fcwwtdak'; // ← paste here
 
+async function sendData({ date, time, foods }) {
   try {
-    if (USE_FORMSPREE) {
-      /* ── Formspree ── */
-      await fetch(WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({
-          Date:  date,
-          Time:  time,
-          Food:  foods.join(', ')
-        })
-      });
-    } else {
-      /* ── Discord Webhook ── */
-      const body = {
-        username: '💖 Date Planner',
-        avatar_url: 'https://twemoji.maxcdn.com/v/latest/72x72/1f496.png',
-        embeds: [{
-          title: '🌸 She said YES! 💍',
-          color: 0xff3d7f,
-          fields: [
-            { name: '📅 Date',   value: date,              inline: true },
-            { name: '⏰ Time',   value: time,              inline: true },
-            { name: '🍽️ Food',  value: foods.join(', '),  inline: false }
-          ],
-          footer: { text: 'Sent from your special date planner 💕' },
-          timestamp: new Date().toISOString()
-        }]
-      };
-      await fetch(WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body)
-      });
-    }
-    console.info('💌 Data sent!');
+    const response = await fetch(SHEETDB_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        data: [
+          {
+            Date:           date,
+            Time:           time,
+            Food:           foods.join(', '),
+            'Submitted At': new Date().toLocaleString()
+          }
+        ]
+      })
+    });
+
+    if (!response.ok) throw new Error('SheetDB error: ' + response.status);
+    console.info('💌 Saved to Google Sheets!');
   } catch (err) {
-    console.error('Could not send data:', err);
+    console.error('Could not save data:', err);
   }
 }
