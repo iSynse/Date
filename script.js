@@ -44,6 +44,46 @@ const steps = {
 let currentStep = 1;
 
 /* ─────────────────────────────────────────────────────────
+   BACKGROUND MUSIC CONTROLS
+───────────────────────────────────────────────────────── */
+const bgAudio     = document.getElementById('bgMusic');
+const musicToggle = document.getElementById('musicToggle');
+
+function setMusicActive(isActive) {
+  if (!musicToggle) return;
+  musicToggle.classList.toggle('active', isActive);
+  musicToggle.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+}
+
+async function startBackgroundMusic() {
+  if (!bgAudio) return;
+  bgAudio.loop = true;
+  try {
+    await bgAudio.play();
+    setMusicActive(true);
+  } catch (err) {
+    console.warn('Background music could not start:', err);
+  }
+}
+
+function toggleMusic() {
+  if (!bgAudio) return;
+  if (bgAudio.paused) {
+    bgAudio.play().then(() => setMusicActive(true)).catch(() => {});
+  } else {
+    bgAudio.pause();
+    setMusicActive(false);
+  }
+}
+
+if (musicToggle) {
+  musicToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    toggleMusic();
+  });
+}
+
+/* ─────────────────────────────────────────────────────────
    FLOATING HEARTS BACKGROUND
 ───────────────────────────────────────────────────────── */
 (function spawnFloatingHearts() {
@@ -100,6 +140,10 @@ let envelopeOpened = false;
 envelope.addEventListener('click', () => {
   if (envelopeOpened) return;
   envelopeOpened = true;
+
+  // Start background music on first user interaction (click)
+  // This ensures browser autoplay policies allow playback.
+  if (typeof startBackgroundMusic === 'function') startBackgroundMusic();
 
   // 1. Bounce the envelope
   envelope.style.transition = 'transform 0.25s ease';

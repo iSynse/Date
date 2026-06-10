@@ -173,6 +173,38 @@ html, body {
 .btn-primary:active { transform: scale(0.97); }
 
 /* ───────────────────────────────────────────────────────────
+   MUSIC TOGGLE (corner)
+─────────────────────────────────────────────────────────── */
+.music-toggle {
+  position: fixed;
+  right: 18px;
+  top: 18px;
+  z-index: 10000;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--pink-hot), var(--pink-deep));
+  color: var(--white);
+  font-size: 1.15rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(255,61,127,0.18);
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s;
+}
+
+.music-toggle:hover { transform: translateY(-3px); }
+
+.music-toggle.active {
+  box-shadow: 0 10px 30px rgba(255,61,127,0.35);
+  transform: scale(1.06);
+}
+
+.music-toggle:focus { outline: 3px solid rgba(255,61,127,0.18); }
+
+/* ───────────────────────────────────────────────────────────
    STEP 1 — ENVELOPE
 ─────────────────────────────────────────────────────────── */
 .envelope-wrapper {

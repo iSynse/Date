@@ -12,6 +12,8 @@
   <!-- Floating hearts background -->
   <div class="floating-hearts" id="floatingHearts"></div>
 
+  <!-- Music toggle button (corner) -->
+  <button id="musicToggle" class="music-toggle" aria-pressed="false" title="Toggle music">🎵</button>
   <!-- ─────────────────────────────────────────
        STEP 1: The Envelope
   ───────────────────────────────────────── -->
@@ -135,5 +137,7 @@
   </section>
 
   <script src="script.js"></script>
+  <!-- Background music: save your file as `music.mp3` in the project root -->
+  <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
 </body>
 </html>
