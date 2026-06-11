@@ -607,7 +607,11 @@ html, body {
   .envelope-wrapper { width: 280px; height: 195px; }
   .letter { width: 265px; }
   .letter h1 { font-size: 1.35rem; }
-  .letter.revealed { transform: translateX(-50%) translateY(-240px) scale(1); }
+  /* Phone adjustments: keep the letter lower so text remains readable
+     and allow vertical scrolling if needed. */
+  html, body { overflow: auto; }
+  .letter { width: 90vw; }
+  .letter.revealed { transform: translateX(-50%) translateY(-140px) scale(1); }
 }
 
 @media (prefers-reduced-motion: reduce) {
