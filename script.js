@@ -175,16 +175,70 @@ function repositionNoBtn() {
   noBtn.style.top  = y + 'px';
 }
 
-// Place it sensibly at first (next to yes button area)
+// Place it sensibly at first: keep No hidden until reveal (it stays inside the letter DOM so it sits next to Yes)
 window.addEventListener('load', () => {
-  noBtn.style.left = (window.innerWidth  / 2 + 10) + 'px';
-  noBtn.style.top  = (window.innerHeight / 2 + 80) + 'px';
-});
+  if (noBtn) {
+    noBtn.style.display = 'none';
+    // clear any teleporting state
+    noBtn.classList.remove('teleporting');
+    noBtn.style.position = '';
+    noBtn.style.left = '';
+    noBtn.style.top = '';
+  }
 
-noBtn.addEventListener('mouseenter', repositionNoBtn);
-noBtn.addEventListener('touchstart',  repositionNoBtn, { passive: true });
-noBtn.addEventListener('focus',       repositionNoBtn);
-noBtn.addEventListener('click',       (e) => e.preventDefault());
+  // When the letter is revealed, show both buttons inline and shrink Yes so No fits
+  if (letter) {
+    const mo = new MutationObserver(() => {
+      if (letter.classList.contains('revealed')) {
+        const yesBtn = document.getElementById('yesBtn');
+        if (noBtn) {
+          noBtn.style.display = 'inline-block';
+        }
+        if (yesBtn) {
+          yesBtn.classList.add('shrink');
+        }
+      }
+    });
+    mo.observe(letter, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  // Teleport behavior: switch to fixed positioning on first hover, then teleport on each hover
+  let teleporting = false;
+  let hoverCount = 0;
+  const yesBtnRef = document.getElementById('yesBtn');
+
+  function handleNoHover(e) {
+    e.stopPropagation();
+    hoverCount++;
+    // grow Yes cumulatively
+    if (yesBtnRef) {
+      const scale = 1 + Math.min(hoverCount * 0.06, 1.6); // cap scale
+      yesBtnRef.style.transform = `scale(${scale})`;
+    }
+
+    if (!teleporting) {
+      // switch No into fixed positioning at current screen coords, then teleport
+      const rect = noBtn.getBoundingClientRect();
+      noBtn.classList.add('teleporting');
+      noBtn.style.position = 'fixed';
+      noBtn.style.left = rect.left + 'px';
+      noBtn.style.top = rect.top + 'px';
+      teleporting = true;
+      // small delay to allow layout, then teleport
+      setTimeout(() => repositionNoBtn(), 40);
+    } else {
+      repositionNoBtn();
+    }
+  }
+
+  if (noBtn) {
+    noBtn.addEventListener('mouseenter', handleNoHover);
+    noBtn.addEventListener('focus', handleNoHover);
+    noBtn.addEventListener('touchstart', (e) => { e.preventDefault(); handleNoHover(e); }, { passive: false });
+    noBtn.addEventListener('click', (e) => e.preventDefault());
+  }
+});
+// (old continuous runaway logic removed)
 
 /* Yes button */
 document.getElementById('yesBtn').addEventListener('click', () => {

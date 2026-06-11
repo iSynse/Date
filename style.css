@@ -396,6 +396,17 @@ html, body {
   box-shadow: 0 8px 24px rgba(255,61,127,0.45);
 }
 
+/* Shrinked state so there's room for the No button beside it */
+.btn-yes.shrink {
+  transform: scale(0.92);
+}
+
+/* Expanded state when No is hovered */
+.btn-yes.expanded {
+  transform: scale(1.06) translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255,61,127,0.45);
+}
+
 .btn-no {
   flex: 1;
   padding: 0.7rem 0;
@@ -407,11 +418,15 @@ html, body {
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
-  position: fixed; /* will be repositioned by JS */
   transition: none;
   white-space: nowrap;
-  z-index: 9999;
   width: 100px;
+}
+
+/* When teleporting (after first hover), position fixed so it can move freely */
+.btn-no.teleporting {
+  position: fixed;
+  z-index: 9999;
 }
 
 /* ───────────────────────────────────────────────────────────
